@@ -1,125 +1,152 @@
 import logo from "./logo.svg";
 import "./App.css";
+import React, { useState } from "react";
+import { Product } from "./Product";
+import "./Product";
 const INITIAL_PRODUCT_LIST = [
   {
+    id: 1,
     name: "Motivational Poster Frame",
-    poster: "https://m.media-amazon.com/images/I/71kb+LvPEsL._SX425_.jpg",
+    poster: "https://designerpages.s3.amazonaws.com/assets/71649701/f3b8bb24-a484-4d9b-af1f-957b8af0ed7b_large.png",
     price: "₹874",
-    summary:
-      "For Home & Office Decor: An Aesthetic Wall Decorations Paintings For Living Room, Bedroom, Kitchen, Office, Hotel, Restaurant, Dining Area, Kids Room, Bathroom, Bar, Gym, etc. A Great Gift For Art Lovers, Decorators, Interior Designers, Family, Friends And More",
-    rating: 4,
+   
+    isaddedtocart: false,
   },
   {
+    id: 2,
     name: "Apple iPhone 15 Pro Max (256 GB)",
     poster:
       "https://m.media-amazon.com/images/I/81Os1SDWpcL._AC_UY327_FMwebp_QL65_.jpg",
     price: "₹1,56,990",
-    summary:
-      "FORGED IN TITANIUM — iPhone 15 Pro Max has a strong and light aerospace-grade titanium design with a textured matte-glass back. It also features a Ceramic Shield front that’s tougher than any smartphone glass. And it’s splash, water, and dust resistant.",
-    rating: 3.9,
+   
+    isaddedtocart: false,
   },
   {
+    id: 3,
     name: "Apple 2022 MacBook Pro Laptop with M2 chip",
-    poster: "https://cdn.shopify.com/s/files/1/0696/7345/1805/files/DellLaptopLatitude5430I53rdGen4GB320HDD15.6_Refurbished_260x.jpg?v=1689683481",
+    poster:
+      "https://cdn.shopify.com/s/files/1/0696/7345/1805/files/DellLaptopLatitude5430I53rdGen4GB320HDD15.6_Refurbished_260x.jpg?v=1689683481",
     price: "₹1,40,990",
-    summary:
-      "SUPERCHARGED BY M2 – The 13-inch MacBook Pro laptop is a portable powerhouse. Get more done faster with a next-generation 8-core CPU, 10-core GPU and up to 24GB of unified memory.",
-    rating: 4.9,
+    
+    isaddedtocart: false,
   },
   {
+    id: 4,
     name: " iPhone 15 (128 GB)",
     poster: "https://m.media-amazon.com/images/I/71d7rfSl0wL._AC_UY218_.jpg",
     price: "₹77,900 ",
-    rating: 3,
-    summary:
-      "DYNAMIC ISLAND COMES TO IPHONE 15 — Dynamic Island bubbles up alerts and Live Activities — so you don’t miss them while you’re doing something else. You can see who’s calling, track your next ride, check your flight status, and so much more.",
+   isaddedtocart: false,
   },
   {
+    id: 5,
     name: "iPhone 15 Pro (128 GB) ",
     poster: "https://m.media-amazon.com/images/I/81SigpJN1KL._AC_UY218_.jpg",
     price: "₹1,34,900 ",
-    rating: 3.5,
-    summary:
-      " iPhone 15 Pro has a strong and light aerospace-grade titanium design with a textured matte-glass back. It also features a Ceramic Shield front that’s tougher than any smartphone glass. And it’s splash, water, and dust resistant.",
+     isaddedtocart: false,
   },
   {
+    id: 6,
     name: "Samsung Galaxy S23 5G (256GB Storage) ",
     poster: "https://m.media-amazon.com/images/I/51L8W6d-DNL._AC_UY218_.jpg",
     price: "₹65,320",
-    rating: 4.7,
-    summary:
-      "FASTEST MOBILE PROCESSOR AVAILABLE: Whether you’re working hard, playing hard or doing both at the same time, smoothly switch between apps with our fastest processor ever.",
+    isaddedtocart: false,
   },
   {
+    id: 7,
     name: "Samsung Galaxy S23 Ultra 5G (256GB Storage) ",
     poster: "https://m.media-amazon.com/images/I/51hqXIAVXAL._AC_UY218_.jpg",
     price: "₹1,00,000",
-    rating: 5.0,
-    summary:
-      "Create crystal-clear content worth sharing with Galaxy S23 Ultra’s 200MP camera — the highest camera resolution on a phone; Whether you’re posting or printing, Galaxy S23 Ultra always does the moment justice.",
+     isaddedtocart: false,
   },
   {
+    id: 8,
     name: "Apple AirPods Pro (2nd Generation) ​​​​​​​ ",
     poster: "https://m.media-amazon.com/images/I/61SUj2aKoEL._AC_UY218_.jpg",
     price: "₹20,999 ",
-    rating: 4.8,
-    summary:
-      "Active Noise Cancellation reduces unwanted background noise.Adaptive Transparency lets outside sounds in while reducing loud environmental noise.Personalised Spatial Audio with dynamic head tracking places sound all around you.",
+    isaddedtocart: false,
   },
   {
+    id: 9,
     name: " Apple Watch Series 9 [GPS + Cellular 41mm] ",
     poster: "https://m.media-amazon.com/images/I/81I70qV6cOL._AC_UY218_.jpg",
     price: "₹75,900 ",
-    rating: 4.9,
-    summary:
-      "Smartwatch with Gold Stainless steel Case with Gold Milanese Loop One Size. Fitness Tracker, Blood Oxygen & ECG Apps, Always-On Retina Display, Water Resistant",
+    isaddedtocart: false,
   },
   {
+    id: 10,
     name: " Samsung Galaxy Watch5 Bluetooth (44 mm, Sapphire, Compatible with Android only)",
-    poster: "https://www.reliancedigital.in/medias/Samsung-SM-R825FSSAINU-Smart-Watches-491666870-i-1-1200Wx1200H-300Wx300H?context=bWFzdGVyfGltYWdlc3wyMTcyMHxpbWFnZS9qcGVnfGltYWdlcy9oMzIvaDdhLzkyNTE2Mjc5OTEwNzAuanBnfGE3NGVmODAxZjY3OTBjYzhiZGI5MmM0MDhmNWVhN2FhN2M5MWYwZTNkMGU4MzdjZjUwMWM4OGRkYTZjZmI5NzY",
+    poster:
+      "https://www.reliancedigital.in/medias/Samsung-SM-R825FSSAINU-Smart-Watches-491666870-i-1-1200Wx1200H-300Wx300H?context=bWFzdGVyfGltYWdlc3wyMTcyMHxpbWFnZS9qcGVnfGltYWdlcy9oMzIvaDdhLzkyNTE2Mjc5OTEwNzAuanBnfGE3NGVmODAxZjY3OTBjYzhiZGI5MmM0MDhmNWVhN2FhN2M5MWYwZTNkMGU4MzdjZjUwMWM4OGRkYTZjZmI5NzY",
     price: "₹22,999",
-    rating: 4.5,
-    summary:
-      "Analysis (BIA Measurement): Monitor everything from body fat percentage (BIA) to skeletal muscle weight. All the feedback you need to track your progress.",
+    isaddedtocart: false,
   },
   {
-    name: "SAMSUNG Galaxy Buds2 Pro True Wireless Bluetooth Earbud Headphones - White",
-    poster: "https://www.czone.com.pk/images/thumbnails-large/copy-1-czone.com.pk-1540-12961-020322013734.jpg",
+    id: 11,
+    name: "SAMSUNG Galaxy Buds2 Pro false Wireless Bluetooth Earbud Headphones - White",
+    poster:
+      "https://designerpages.s3.amazonaws.com/assets/71649701/f3b8bb24-a484-4d9b-af1f-957b8af0ed7b_large.png",
     price: "₹27,141",
-    rating: 4.3,
-    summary:
-      "Reduce unwanted noise with Galaxy Buds2 Pro; They use Intelligent Active Noise Cancellation* to quiet even the loudest outside sounds; Tune in to what matters most without being bothered by distracting sounds around you",
+    isaddedtocart: false,
   },
   {
+    id: 12,
     name: "Apple MacBook Air Laptop M1 chip, 13.3-inch/33.74 cm",
-    poster: "https://cdn.shopify.com/s/files/1/0696/7345/1805/files/DellLaptopLatitude5430I53rdGen4GB320HDD15.6_Refurbished_260x.jpg?v=1689683481",
+    poster:
+      "https://cdn.shopify.com/s/files/1/0696/7345/1805/files/DellLaptopLatitude5430I53rdGen4GB320HDD15.6_Refurbished_260x.jpg?v=1689683481",
     price: "₹84,990",
-    rating: 5.0,
-    summary:
-      "Take on everything from professional-quality editing to action-packed gaming with ease. The Apple M1 chip with an 8-core CPU delivers up to 3.5x faster performance than the previous generation while using way less power.",
+    isaddedtocart: false,
   },
-  
 ];
 function App() {
   let style = {
     color: "white",
     marginTop: "30px",
   };
-  let productlist = INITIAL_PRODUCT_LIST;
+  
+  
+
+  const [productlist, setproductlist] = useState(INITIAL_PRODUCT_LIST);
+  //let productlist = INITIAL_PRODUCT_LIST;
+  const [cart, setCart] = useState([]);
+  const handleCart = (id) => {
+    const updatedProducts = productlist.map((product) =>
+      product.id === id
+        ? { ...product, isaddedtocart: !product.isaddedtocart }
+        : product
+    );
+
+    const updatedCart = updatedProducts.filter(
+      (product) => product.isaddedtocart
+    );
+
+    setproductlist(updatedProducts);
+    setCart(updatedCart);
+    console.log(updatedProducts)
+
+  console.log(updatedCart)
+  };
+  
   return (
-    <div className="container">
-      <div className="card">
-        <span>
-          <span className="link">Start bootstrap</span>
-          <span className="link">Home</span>
-          <span className="link">About</span>
-          <span className="link">Shop</span>
-          <span>
-            {" "}
-            <button className="btn btn-success">🛒Cart </button>
+    
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col">
+          <span className="d-flex flex-wrap">
+            <span className="link mx-2">Start bootstrap</span>
+            <span className="link mx-2">Home</span>
+            <span className="link mx-2">About</span>
+            <span className="link mx-2">Shop</span>
           </span>
-        </span>
+        </div>
+        <div className="col-12 col-md-3 mt-3 mt-md-0 text-md-right" style={{paddingTop:"40px"}}>
+          <span>
+            <button className="btn btn-success">🛒Cart{cart.length} </button>
+          </span>
+        </div>
       </div>
+          
+    
+      
       <div className="black">
         <div className="con2">
           <h1 style={style}>Welcome to online shopping</h1>
@@ -129,32 +156,11 @@ function App() {
 
       <div className="product-list">
         {productlist.map((roduct) => (
-          <Product product={roduct} />
+          <Product product={roduct} onAddCart={handleCart} />
         ))}
       </div>
     </div>
   );
 }
 
-function Product({ product }) {
-  return (
-    <div className="product-container">
-      <img ClassName="Product-poster" src={product.poster} alt={product.name} />
-      <div className="product-spec">
-        <h3 className="product-name">{product.name}</h3>
-        <p className="product-rating">⭐{product.rating}</p>
-      </div>
-
-      {/* conditional Styling */}
-      {/* <p style={summaryStyle} className='product-summary'>{product.summary}</p> */}
-      {/* conditional rendering */}
-      <p className="product-summary">{product.summary}</p>
-      <div className="priceStyle">
-        Price: <p className="product-price"> {product.price}</p>
-        
-      </div>
-      <button className="btn btn-primary">Add to Cart</button>
-    </div>
-  );
-}
 export default App;
